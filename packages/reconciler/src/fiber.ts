@@ -18,6 +18,7 @@ export class FiberNode {
   index: number
 
   memoizedProps: Props | null
+  memoizedState: any
   alternate: FiberNode | null
   flags: Flags
   updateQueue: unknown
@@ -37,6 +38,7 @@ export class FiberNode {
 
     this.pendingProps = pendingProps
     this.memoizedProps = null
+    this.memoizedState = null
     this.alternate = null
     this.updateQueue = null
     // 副作用
@@ -54,4 +56,25 @@ export class FiberRootNode {
     hostRootFiber.stateNode = this
     this.finishedWork = null
   }
+}
+
+export function createWorkInProgress(current: FiberNode, pendingProps: Props): FiberNode {
+  let wip = current.alternate
+  if (wip === null) {
+    wip = new FiberNode(current.tag, pendingProps, current.key)
+    wip.type = current.type
+    wip.stateNode = current.stateNode
+
+    wip.alternate = current
+    current.alternate = wip
+  }
+  else {
+    wip.pendingProps = pendingProps
+    wip.flags = NoFlags
+    wip.updateQueue = current.updateQueue
+    wip.child = current.child
+    wip.memoizedProps = current.memoizedProps
+    wip.memoizedState = current.memoizedState
+  }
+  return wip
 }
