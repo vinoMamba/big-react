@@ -1,0 +1,17 @@
+export type Container = Element
+export type Instance = Element
+
+export function createInstance(type: string, props: any): Instance {
+  const element = document.createElement(type)
+  return element
+}
+
+export function appendInitialChild(parentInstance: Instance, child: Instance): void {
+  parentInstance.appendChild(child)
+}
+
+export function createTextInstance(content: string) {
+  return document.createTextNode(content)
+}
+
+export const appendChildToContainer = appendInitialChild
