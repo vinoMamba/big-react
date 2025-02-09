@@ -6,7 +6,7 @@ import { HostRoot } from "./workTags";
 let workInProgress: FiberNode | null = null
 
 function prepareFreshStack(fiber: FiberRootNode) {
-  workInProgress = createWorkInProgress(fiber.current,{})
+  workInProgress = createWorkInProgress(fiber.current, {})
 }
 
 export function scheduleUpdateOnFiber(fiber: FiberNode) {
@@ -44,11 +44,19 @@ function renderRoot(root: FiberRootNode) {
       workLoop()
       break
     } catch (e) {
-      console.warn('workLoop发生错误', e)
+      if (__DEV__) {
+        console.log('workLoop发生错误', e)
+      }
       workInProgress = null
     }
 
   } while (true)
+
+  const finishedWork = root.current.alternate
+  root.finishedWork = finishedWork
+
+  // TODO: 提交
+  // commitRoot(root)
 }
 
 
