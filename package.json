@@ -1,0 +1,19 @@
+{
+  "name": "@vino/root",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "catalog:",
+    "turbo": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:"
+  },
+  "dependencies": {
+    "unbuild": "catalog:"
+  },
+  "packageManager": "pnpm@10.2.1"
+}

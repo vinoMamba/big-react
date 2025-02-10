@@ -1,0 +1,22 @@
+{
+  "name": "react",
+  "version": "0.0.1",
+  "description": "",
+  "scripts": {
+    "build": "unbuild"
+  },
+  "exports": {
+    ".": "./index.ts",
+    "./jsx-runtime": "./src/jsx.ts",
+    "./jsx-dev-runtime": "./src/jsx.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "devDependencies": {
+    "unbuild": "catalog:",
+    "typescript-config": "workspace:*"
+  },
+  "dependencies": {
+    "shared": "workspace:*"
+  }
+}

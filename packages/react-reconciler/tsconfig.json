@@ -1,0 +1,11 @@
+{
+  "extends": "typescript-config/base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "hostConfig": [
+        "../react-dom/src/hostConfig.ts"
+      ]
+    }
+  }
+}

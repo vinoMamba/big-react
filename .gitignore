@@ -1,0 +1,11 @@
+.turbo
+
+node_modules/*
+
+packages/*/node_modules/*
+playground/*/node_modules/*
+
+dist/*
+
+packages/*/dist/*
+playground/*/dist/*
