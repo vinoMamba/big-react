@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "hostConfig": ["../react-dom/src/hostConfig"]
+    }
+  }
+}

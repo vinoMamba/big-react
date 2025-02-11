@@ -36,6 +36,48 @@ importers:
         specifier: 'catalog:'
         version: 6.1.0(jiti@2.4.2)
 
+  packages/react:
+    dependencies:
+      shared:
+        specifier: workspace:*
+        version: link:../shared
+
+  packages/react-dom:
+    dependencies:
+      react:
+        specifier: workspace:*
+        version: link:../react
+      react-reconciler:
+        specifier: workspace:*
+        version: link:../react-reconciler
+      shared:
+        specifier: workspace:*
+        version: link:../shared
+
+  packages/react-reconciler:
+    dependencies:
+      shared:
+        specifier: workspace:*
+        version: link:../shared
+
+  packages/shared: {}
+
+  playground/dom:
+    dependencies:
+      react:
+        specifier: workspace:*
+        version: link:../../packages/react
+      react-dom:
+        specifier: workspace:*
+        version: link:../../packages/react-dom
+    devDependencies:
+      '@vitejs/plugin-react':
+        specifier: 'catalog:'
+        version: 4.3.4(vite@6.1.0(jiti@2.4.2))
+      vite:
+        specifier: 'catalog:'
+        version: 6.1.0(jiti@2.4.2)
+
 packages:
 
   '@ampproject/remapping@2.3.0':
