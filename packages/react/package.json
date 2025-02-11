@@ -1,0 +1,13 @@
+{
+  "name": "react",
+  "version": "1.0.0",
+  "description": "",
+  "exports": {
+    ".": "./index.ts",
+    "./jsx-dev-runtime": "./src/jsx.ts",
+    "./jsx-runtime": "./src/jsx.ts"
+  },
+  "dependencies": {
+    "shared": "workspace:*"
+  }
+}
