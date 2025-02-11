@@ -1,10 +1,12 @@
 import react from 'react'
 import reactDom from 'react-dom'
 
-const x = <div>111</div>
+function App() {
+  return <div>111</div>
+}
 
 const root = document.getElementById('root')
 
-if(root){
-  reactDom.createRoot(root).render(x)
+if (root) {
+  reactDom.createRoot(root).render(<App />)
 }
