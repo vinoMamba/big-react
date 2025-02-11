@@ -12,8 +12,5 @@
     "typescript": "catalog:",
     "vite": "catalog:"
   },
-  "dependencies": {
-    "unbuild": "catalog:"
-  },
   "packageManager": "pnpm@10.2.1"
 }
