@@ -13,9 +13,7 @@ function prepareFreshStack(fiber: FiberRootNode) {
 
 export function scheduleUpdateOnFiber(fiber: FiberNode) {
   //TODO: 调度功能
-
   const root = markUpdateFromFiberToRoot(fiber)
-
   renderRoot(root)
 
 }
@@ -29,7 +27,7 @@ function markUpdateFromFiberToRoot(fiber: FiberNode) {
     node = parent
     parent = node.return
   }
-  if (node.tag = HostRoot) {
+  if (node.tag === HostRoot) {
     return node.stateNode
   }
 
@@ -97,6 +95,7 @@ function workLoop() {
 
 
 function performUnitOfWork(fiber: FiberNode) {
+  console.log('performUnitOfWork', workInProgress)
   const next = beginWork(fiber)
   fiber.memoizedProps = fiber.pendingProps
 
