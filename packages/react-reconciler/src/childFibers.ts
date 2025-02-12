@@ -46,7 +46,7 @@ function ChildReconciler(shouldTrackEffects: boolean) {
           return placeSingleChild(reconcileSingleElement(returnFiber, currentFiber, newChild))
         default:
           if (__DEV__) {
-            console.log('未实现的reconcile类型', newChild)
+            console.warn('未实现的reconcile类型', newChild)
           }
           break
       }
@@ -58,7 +58,7 @@ function ChildReconciler(shouldTrackEffects: boolean) {
     }
 
     if (__DEV__) {
-      console.log('未实现的reconcile类型', newChild)
+      console.warn('未实现的reconcile类型', newChild)
     }
 
     return null

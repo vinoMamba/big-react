@@ -45,7 +45,7 @@ function renderRoot(root: FiberRootNode) {
       break
     } catch (e) {
       if (__DEV__) {
-        console.log('workLoop发生错误', e)
+        console.error('workLoop发生错误', e)
       }
       workInProgress = null
     }
@@ -95,7 +95,6 @@ function workLoop() {
 
 
 function performUnitOfWork(fiber: FiberNode) {
-  console.log('performUnitOfWork', workInProgress)
   const next = beginWork(fiber)
   fiber.memoizedProps = fiber.pendingProps
 

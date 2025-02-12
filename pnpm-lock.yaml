@@ -60,7 +60,11 @@ importers:
         specifier: workspace:*
         version: link:../shared
 
-  packages/shared: {}
+  packages/shared:
+    dependencies:
+      react:
+        specifier: workspace:^
+        version: link:../react
 
   playground/dom:
     dependencies:

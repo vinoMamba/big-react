@@ -20,7 +20,7 @@ export const beginWork = (wip: FiberNode) => {
       return updateFunctionComponent(wip)
     default:
       if (__DEV__) {
-        console.log('beginWork未实现的类型', wip.tag)
+        console.warn('beginWork未实现的类型', wip.tag)
       }
       return null
   }
@@ -43,6 +43,7 @@ function updateHostRoot(wip: FiberNode) {
   const { memoizedState } = processUpdateQueue(baseState, pending)
   wip.memoizedState = memoizedState
 
+  //TODO: 理解为啥要将memoizedState赋值给nextChildren
   const nextChildren = wip.memoizedState
 
   reconcileChildren(wip, nextChildren)
