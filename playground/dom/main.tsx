@@ -3,7 +3,10 @@ import reactDom from 'react-dom'
 
 function App() {
   const [count, setCount] = useState(100)
-  return <div>{count}</div>
+  window.setCount = setCount
+  return (
+    count === 3 ? <span>fuck</span> : <div>{count}</div>
+  )
 }
 
 const root = document.getElementById('root')

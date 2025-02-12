@@ -1,7 +1,7 @@
-import { appendChildToContainer, Container } from "hostConfig";
+import { appendChildToContainer, commitUpdate, Container, removeChild } from "hostConfig";
 import { FiberNode, FiberRootNode } from "./fiber";
-import { NoFlags, Placement } from "./fiberFlags";
-import { HostRoot, HostText } from "./workTags";
+import { ChildDeletion, NoFlags, Placement, Update } from "./fiberFlags";
+import { FunctionComponent, HostRoot, HostText } from "./workTags";
 import { MutationMask } from "./fiberFlags";
 import { HostComponent } from "./workTags";
 
@@ -38,6 +38,82 @@ function commitMutationEffectsOnFiber(finishedWork: FiberNode) {
     finishedWork.flags &= ~Placement
   }
   // flags Update
+  if ((flags & Update) !== NoFlags) {
+    commitUpdate(finishedWork)
+    finishedWork.flags &= ~Update
+  }
+  if ((flags & ChildDeletion) !== NoFlags) {
+    const deletions = finishedWork.deletions
+    if (deletions !== null) {
+      deletions.forEach(child => {
+        commitDeletion(child)
+      })
+    }
+    finishedWork.flags &= ~ChildDeletion
+  }
+}
+
+function commitDeletion(childToDelete: FiberNode) {
+  let rootHostNode: FiberNode | null = null
+
+  commitNestedHostComponents(childToDelete, (unmountFiber) => {
+    switch (unmountFiber.tag) {
+      case HostComponent:
+        if (rootHostNode === null) {
+          rootHostNode = unmountFiber
+        }
+        return
+      case HostText:
+        if (rootHostNode === null) {
+          rootHostNode = unmountFiber
+        }
+        return
+      case FunctionComponent:
+        // useEffect unMount
+        return
+      default:
+        if (__DEV__) {
+          console.warn('未处理的unmount类型', unmountFiber)
+        }
+        break
+    }
+  })
+  if (rootHostNode !== null) {
+    const hostParent = getHostParentNode(childToDelete)
+    if (hostParent !== null) {
+      removeChild(rootHostNode.stateNode, hostParent)
+    }
+  }
+  childToDelete.return = null
+  childToDelete.child = null
+}
+
+function commitNestedHostComponents(
+  root: FiberNode,
+  onCommitUnMount: (fiber: FiberNode) => void
+) {
+  let node = root
+  while (true) {
+    onCommitUnMount(node)
+
+    if (node.child !== null) {
+      node.child.return = node
+      node = node.child
+      continue
+    }
+
+    if (node === root) {
+      return
+    }
+    while (node.sibling === null) {
+      if (node.return === null || node.return === null) {
+        return
+      }
+      node = node.return
+    }
+    node.sibling.return = node.return
+    node = node.sibling
+  }
 }
 
 
