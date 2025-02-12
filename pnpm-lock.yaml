@@ -56,6 +56,9 @@ importers:
 
   packages/react-reconciler:
     dependencies:
+      react:
+        specifier: workspace:*
+        version: link:../react
       shared:
         specifier: workspace:*
         version: link:../shared
@@ -63,7 +66,7 @@ importers:
   packages/shared:
     dependencies:
       react:
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../react
 
   playground/dom:
