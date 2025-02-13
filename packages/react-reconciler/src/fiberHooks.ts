@@ -24,6 +24,7 @@ export function renderWithHooks(wip: FiberNode) {
   //当前正在渲染的fiber
   currentlyRenderingFiber = wip
   wip.memoizedState = null
+  wip.updateQueue = null
 
   const current = wip.alternate
 
@@ -42,6 +43,8 @@ export function renderWithHooks(wip: FiberNode) {
 
 
   currentlyRenderingFiber = null
+  workInProgressHook = null
+  currentHook = null
 
   return children
 }
@@ -85,7 +88,7 @@ function mountState<State>(initialState: State | (() => State)): [State, Dispatc
   hook.memoizedState = memoizedState
 
   const dispatch = dispatchSetState.bind(null, currentlyRenderingFiber, queue)
-
+	queue.dispatch = dispatch;
   return [memoizedState, dispatch]
 }
 
@@ -121,7 +124,6 @@ function mountWorkInProgressHook(): Hook {
 
 
 function updateWorkInProgressHook(): Hook {
-
   let nextCurrentHook: Hook | null = null
 
   if (currentHook === null) {

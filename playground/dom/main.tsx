@@ -3,9 +3,12 @@ import reactDom from 'react-dom'
 
 function App() {
   const [count, setCount] = useState(100)
-  window.setCount = setCount
+
+  const onClick = () => {
+    setCount((n) => n + 1)
+  }
   return (
-    count === 3 ? <span>fuck</span> : <div>{count}</div>
+    <div onClick={onClick}>{count}</div>
   )
 }
 
