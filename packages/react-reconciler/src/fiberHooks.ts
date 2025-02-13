@@ -1,6 +1,6 @@
 import { Dispatch, Dispatcher } from "react/src/currentDispatcher";
 import { FiberNode } from "./fiber";
-import internals from "shared/internals";
+import internals from "internals";
 import { createUpdate, createUpdateQueue, enqueueUpdate, processUpdateQueue, UpdateQueue } from "./updateQueue";
 import { Action } from "shared/ReactTypes";
 import { scheduleUpdateOnFiber } from "./workLoop";
