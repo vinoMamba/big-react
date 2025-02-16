@@ -5,7 +5,7 @@ import { reconcileChildFibers } from "./childFibers"
 import { FiberNode } from "./fiber"
 import { renderWithHooks } from "./fiberHooks"
 import { processUpdateQueue, UpdateQueue } from "./updateQueue"
-import { FunctionComponent, HostComponent, HostRoot, HostText } from "./workTags"
+import { Fragment, FunctionComponent, HostComponent, HostRoot, HostText } from "./workTags"
 
 export const beginWork = (wip: FiberNode) => {
   // 比较，返回子fiberNode
@@ -18,12 +18,20 @@ export const beginWork = (wip: FiberNode) => {
       return null
     case FunctionComponent:
       return updateFunctionComponent(wip)
+    case Fragment:
+      return updateFragment(wip)
     default:
       if (__DEV__) {
         console.warn('beginWork未实现的类型', wip.tag)
       }
       return null
   }
+}
+
+function updateFragment(wip: FiberNode) {
+  const nextChildren = wip.pendingProps
+  reconcileChildren(wip, nextChildren)
+  return wip.child
 }
 
 function updateFunctionComponent(wip: FiberNode) {

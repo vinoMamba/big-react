@@ -53,20 +53,34 @@ function commitMutationEffectsOnFiber(finishedWork: FiberNode) {
   }
 }
 
+function recordHostChildrenToDelete(
+  childToDelete: FiberNode[],
+  unmountFiber: FiberNode
+) {
+  let lastOne = childToDelete[childToDelete.length - 1]
+  if (!lastOne) {
+    childToDelete.push(unmountFiber)
+  } else {
+    let node = lastOne.sibling
+    while (node !== null) {
+      if (unmountFiber === node) {
+        childToDelete.push(unmountFiber)
+      }
+      node = node.sibling
+    }
+  }
+}
+
 function commitDeletion(childToDelete: FiberNode) {
-  let rootHostNode: FiberNode | null = null
+  const rootChildrenToDelete: FiberNode[] = []
 
   commitNestedHostComponents(childToDelete, (unmountFiber) => {
     switch (unmountFiber.tag) {
       case HostComponent:
-        if (rootHostNode === null) {
-          rootHostNode = unmountFiber
-        }
+        recordHostChildrenToDelete(rootChildrenToDelete, unmountFiber)
         return
       case HostText:
-        if (rootHostNode === null) {
-          rootHostNode = unmountFiber
-        }
+        recordHostChildrenToDelete(rootChildrenToDelete, unmountFiber)
         return
       case FunctionComponent:
         // useEffect unMount
@@ -75,13 +89,14 @@ function commitDeletion(childToDelete: FiberNode) {
         if (__DEV__) {
           console.warn('未处理的unmount类型', unmountFiber)
         }
-        break
     }
   })
-  if (rootHostNode !== null) {
+  if (rootChildrenToDelete.length) {
     const hostParent = getHostParentNode(childToDelete)
     if (hostParent !== null) {
-      removeChild(rootHostNode.stateNode, hostParent)
+      rootChildrenToDelete.forEach(node => {
+        removeChild(node.stateNode, hostParent)
+      })
     }
   }
   childToDelete.return = null

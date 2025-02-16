@@ -16,6 +16,7 @@ function App() {
 
   return (
     <ul onClick={() => setCount(n => n + 1)}>
+      <li key='4'>4</li>
       {arr}
     </ul>
   )
